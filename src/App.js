@@ -11,7 +11,6 @@ export default function App() {
   let apiUrl = `https://api.github.com/users/`;
   const [user, setUser] = useState({});
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
 
   const handleSearch = debounce(async (e) => {
@@ -31,7 +30,6 @@ export default function App() {
     } catch (error) {
       console.error(`An error occured while fetching the user, ${error}`);
       setLoading(false);
-      setError(error?.message);
     } finally {
       setLoading(false);
     }
@@ -52,7 +50,6 @@ export default function App() {
           GitHub Scout
         </h1>
         <SearchBar onChange={handleSearch} />
-        {error && <ErrorMessage error={error} />}
         {searchTerm === "" ? (
           <div className="flex items-center justify-center h-[60vh] w-full">
             <p className="text-white font-light text-2xl">
@@ -74,14 +71,6 @@ export default function App() {
     </div>
   );
 }
-
-const ErrorMessage = ({ error }) => {
-  return (
-    <div className="error-message text-red-500 text-center py-4">
-      <p>{error}</p>
-    </div>
-  );
-};
 
 const UserProfile = ({ user }) => {
   function formatDate(apiDate) {
