@@ -84,11 +84,22 @@ const ErrorMessage = ({ error }) => {
 };
 
 const UserProfile = ({ user }) => {
+  function formatDate(apiDate) {
+    const date = new Date(apiDate);
+    const options = { day: "2-digit", month: "short", year: "numeric" };
+    const formattedDate = date.toLocaleDateString("en-GB", options);
+    return `Joined ${formattedDate}`;
+  }
+
   return (
     <div className="bg-blue-light rounded-lg py-10 px-8 mt-8 w-full">
       <div className="flex items-start gap-5 w-full">
         <img
-          src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png"
+          src={
+            user?.avatar_url
+              ? user.avatar_url
+              : "https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png"
+          }
           alt="Octocat"
           className="rounded-full w-28 h-28"
         />
@@ -98,7 +109,7 @@ const UserProfile = ({ user }) => {
               {user?.name ? user.name : "Not Available"}
             </h1>
             <h2 className="font-poppins text-gray-300 font-light text-sm lg:w-auto w-full">
-              Joined 25 Jan 2011
+              {user?.created_at && formatDate(user.created_at)}
             </h2>
           </div>
           <p className="text-blue-sky font-light text-lg">
